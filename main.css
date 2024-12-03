@@ -259,7 +259,7 @@ nav ul li:hover a{
     content: "";
     position: absolute;
     height: 6px;
-    background-color: #98e2fd;
+    background-color: #0fbcf9;
     bottom: 0;
 }
 
@@ -406,4 +406,57 @@ input[type='text'],input[type='email']{
     font-size: 1.1em;
     font-weight: 600;
     color: whitesmoke;
+}
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav ul li {
+        margin-left: 0;
+        margin-bottom: 15px;
+    }
+    .home {
+        flex-direction: column;
+        text-align: center;
+    }
+    .home-img {
+        margin-bottom: 20px;
+    }
+    .home-info h1 {
+        font-size: 30px;
+    }
+    .container {
+        padding: 20px 10px;
+    }
+    .boxes {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .contact-box {
+        width: 100%;
+    }
+    .form-d input, .form-d textarea, .sendbtn {
+        width: 100%;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 1024px) {
+    .home {
+        flex-direction: row;
+        align-items: center;
+    }
+    .home-info h1 {
+        font-size: 40px;
+    }
+    .boxes {
+        flex-direction: row;
+        gap: 20px;
+    }
+    .contact-box {
+        width: calc(50% - 20px);
+    }
+    .form-d input, .form-d textarea {
+        max-width: 500px;
+    }
 }
