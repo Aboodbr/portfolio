@@ -1,3 +1,4 @@
+/* الكود الحالي مع إضافة تأخير للعنوان */
 * {
   margin: 0;
   padding: 0;
@@ -69,6 +70,17 @@ nav ul li:hover a {
   height: 100vh;
   padding: 60px;
   color: whitesmoke;
+}
+
+.home-info {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.home-info.visible {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .home-info h1 {
@@ -163,6 +175,17 @@ nav ul li:hover a {
   box-shadow: 0 0 10px #0fbcf9;
 }
 
+.home-img {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.home-img.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .home-img .img-box {
   position: relative;
   width: 30vw;
@@ -216,13 +239,24 @@ nav ul li:hover a {
 }
 
 .projects h2,
-.skill h2 {
+.skill h2,
+.container h1 {
   margin: 50px 0;
   display: flex;
   justify-content: center;
   text-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 40px cyan, 0 0 80px cyan;
   font-size: 40px;
   color: whitesmoke;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+}
+
+.projects h2.visible,
+.skill h2.visible,
+.container h1.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .projects .content {
@@ -238,7 +272,27 @@ nav ul li:hover a {
   box-shadow: 0 5px 25px rgba(1, 1, 1, 0.15);
   border-radius: 10px;
   padding: 25px;
-  transition: transform 0.7s ease;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.card:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.card:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.card:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.card:nth-child(4) {
+  transition-delay: 0.4s;
 }
 
 .card:hover {
@@ -282,6 +336,14 @@ nav ul li:hover a {
   width: calc(70% - 20px);
   margin: 10px auto;
   padding: 12px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.skill.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .skill-info {
@@ -346,14 +408,6 @@ nav ul li:hover a {
   padding: 50px 0;
 }
 
-.container h1 {
-  display: inline;
-  letter-spacing: 6px;
-  text-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 40px cyan, 0 0 80px cyan;
-  font-size: 40px;
-  color: whitesmoke;
-}
-
 .boxes {
   display: flex;
   flex-wrap: wrap;
@@ -369,7 +423,20 @@ nav ul li:hover a {
   width: 300px;
   text-align: center;
   border-left: 4px solid #0fbcf9;
-  transition: transform 0.3s, box-shadow 0.3s;
+  opacity: 0;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.contact-box:nth-child(odd) {
+  transform: translateX(-50px);
+}
+.contact-box:nth-child(even) {
+  transform: translateX(50px);
+}
+
+.contact-box.visible {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .contact-box:hover {
@@ -401,6 +468,14 @@ nav ul li:hover a {
   align-items: center;
   gap: 10px;
   padding: 0 20px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.form-d.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 input,
@@ -524,7 +599,8 @@ textarea::placeholder {
     margin-top: 20px;
   }
   .projects h2,
-  .skill h2 {
+  .skill h2,
+  .container h1 {
     font-size: 28px;
   }
   .card {
