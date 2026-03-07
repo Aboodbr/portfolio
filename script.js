@@ -1,51 +1,111 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Hamburger Menu Toggle
-  document.querySelector(".hamburger").addEventListener("click", () => {
-    document.querySelector(".nav-menu").classList.toggle("active");
-  });
+  /* === 1. Mobile Sidebar Toggle === */
+  const mobileToggle = document.querySelector(".mobile-nav-toggle");
+  const sidebar = document.querySelector(".sidebar");
+  const navLinks = document.querySelectorAll(".nav-menu a");
 
-  // Back to Top Button
-  const backToTop = document.getElementById("back-to-top");
-  window.addEventListener("scroll", () => {
-    if (
-      document.body.scrollTop > 100 ||
-      document.documentElement.scrollTop > 100
-    ) {
-      backToTop.style.display = "block";
-    } else {
-      backToTop.style.display = "none";
-    }
-  });
-  backToTop.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-  // Animations with IntersectionObserver
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          // For skills, add animate class to skill bars after a delay
-          if (entry.target.classList.contains("skill")) {
-            setTimeout(() => {
-              entry.target.querySelector(".skill-bar").classList.add("animate");
-            }, 400);
-          }
-        }
-      });
-    },
-    {
-      threshold: 0.1, // Reduced threshold to ensure visibility
-    }
-  );
-
-  // Observe sections and elements
-  document
-    .querySelectorAll(
-      ".home-info, .home-img, .projects h2, .card, .skill, .skill h2, .container h1, .contact-box, .form-d"
-    )
-    .forEach((element) => {
-      observer.observe(element);
+  if (mobileToggle) {
+    mobileToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("mobile-active");
+      let icon = mobileToggle.querySelector("i");
+      if (sidebar.classList.contains("mobile-active")) {
+        icon.classList.remove("fa-bars");
+        icon.classList.add("fa-times");
+      } else {
+        icon.classList.remove("fa-times");
+        icon.classList.add("fa-bars");
+      }
     });
+  }
+
+  // إغلاق القائمة عند النقر على أي رابط في الموبايل
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (window.innerWidth <= 992) {
+        sidebar.classList.remove("mobile-active");
+        mobileToggle
+          .querySelector("i")
+          .classList.replace("fa-times", "fa-bars");
+      }
+    });
+  });
+
+  /* === 2. Typing Effect for Home Section === */
+  const typedTextSpan = document.querySelector(".typed-text");
+  const textArray = [
+    "backend systems.",
+    "RESTful APIs.",
+    "database architectures.",
+  ];
+  const typingDelay = 100;
+  const erasingDelay = 50;
+  const newTextDelay = 2000; // Delay between current and next text
+  let textArrayIndex = 0;
+  let charIndex = 0;
+
+  function type() {
+    if (charIndex < textArray[textArrayIndex].length) {
+      typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+      charIndex++;
+      setTimeout(type, typingDelay);
+    } else {
+      setTimeout(erase, newTextDelay);
+    }
+  }
+
+  function erase() {
+    if (charIndex > 0) {
+      typedTextSpan.textContent = textArray[textArrayIndex].substring(
+        0,
+        charIndex - 1,
+      );
+      charIndex--;
+      setTimeout(erase, erasingDelay);
+    } else {
+      textArrayIndex++;
+      if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+      setTimeout(type, typingDelay + 1100);
+    }
+  }
+
+  if (textArray.length) setTimeout(type, newTextDelay + 250);
+
+  /* === 3. Scroll Active Link Highlight === */
+  const sections = document.querySelectorAll("section");
+
+  window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (pageYOffset >= sectionTop - sectionHeight / 3) {
+        current = section.getAttribute("id");
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.remove("active");
+      if (link.getAttribute("href").includes(current)) {
+        link.classList.add("active");
+      }
+    });
+  });
+
+  /* === 4. Intersection Observer for Scroll Animations === */
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+        observer.unobserve(entry.target); // إيقاف المراقبة بعد الظهور لمرة واحدة
+      }
+    });
+  }, observerOptions);
+
+  const hiddenElements = document.querySelectorAll(".hidden");
+  hiddenElements.forEach((el) => observer.observe(el));
 });
