@@ -70,14 +70,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (textArray.length) setTimeout(type, newTextDelay + 250);
 
-  /* === 3. Scroll Active Link Highlight === */
+  /* === 3. Scroll Active Link Highlight (Fixed for Sidebar) === */
   const sections = document.querySelectorAll("section");
 
-  window.addEventListener("scroll", () => {
+  function highlightNav() {
     let current = "";
     sections.forEach((section) => {
       const sectionTop = section.offsetTop;
       const sectionHeight = section.clientHeight;
+      // Adjustment for sidebar offset, works better
       if (pageYOffset >= sectionTop - sectionHeight / 3) {
         current = section.getAttribute("id");
       }
@@ -89,7 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
         link.classList.add("active");
       }
     });
-  });
+  }
+
+  window.addEventListener("scroll", highlightNav);
+  highlightNav(); // Call once on load
 
   /* === 4. Intersection Observer for Scroll Animations === */
   const observerOptions = {

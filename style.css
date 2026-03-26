@@ -261,7 +261,7 @@ a {
   color: var(--primary);
 }
 
-/* --- Skills Section (التصميم الاحترافي المضيء) --- */
+/* --- Skills Section (التصميم الاحترافي الجديد) --- */
 .skills-category-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
