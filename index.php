@@ -1,3 +1,16 @@
+<?php
+$host = 'localhost';
+$user = 'root'; 
+$pass = '';
+$dbname = 'portfolio_db';
+
+$conn = new mysqli($host, $user, $pass, $dbname);
+
+// التحقق من الاتصال
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -100,157 +113,49 @@
       <section id="projects" class="section">
         <h2 class="section-title">Some Things I've Built</h2>
         <div class="projects-grid">
-          <!-- 1. Nourtech ERP -->
+          
+          <?php
+          // جلب المشاريع من قاعدة البيانات وعرضها ديناميكياً
+          $result = $conn->query("SELECT * FROM projects ORDER BY id DESC");
+          
+          if ($result && $result->num_rows > 0):
+              while($row = $result->fetch_assoc()): 
+          ?>
           <div class="project-card hidden">
             <div class="project-img">
-              <img src="nour-tech.PNG" alt="Nour Tech Project" loading="lazy" />
+              <!-- عرض الصورة من مجلد uploads -->
+              <img src="uploads/<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['title']) ?>" loading="lazy" />
             </div>
             <div class="project-content">
-              <span class="project-category">Full Stack ERP</span>
-              <h3 class="project-title">Nour Tech</h3>
+              <span class="project-category"><?= htmlspecialchars($row['category']) ?></span>
+              <h3 class="project-title"><?= htmlspecialchars($row['title']) ?></h3>
               <div class="project-links">
+                <?php if(!empty($row['github_link'])): ?>
                 <a
-                  href="https://github.com/Aboodbr/NourTech_ERP.git"
+                  href="<?= htmlspecialchars($row['github_link']) ?>"
                   target="_blank"
                   style="margin-right: 10px"
                   ><i class="fab fa-github"></i> GitHub</a
                 >
+                <?php endif; ?>
+                
+                <?php if(!empty($row['demo_link'])): ?>
                 <a
-                  href="https://drive.google.com/file/d/1wtiJzLOkYkEbWRe2O-bNDgM9gWnVOv0L/view?usp=sharing"
+                  href="<?= htmlspecialchars($row['demo_link']) ?>"
                   target="_blank"
                   ><i class="fas fa-external-link-alt"></i> Demo</a
                 >
+                <?php endif; ?>
               </div>
             </div>
           </div>
+          <?php 
+              endwhile; 
+          else:
+              echo "<p style='color: var(--text-slate);'>No projects have been added yet.</p>";
+          endif; 
+          ?>
 
-          <!-- 2. Hotel Management & Booking System -->
-          <div class="project-card hidden">
-            <div class="project-img">
-              <img src="p6.png" alt="Hotel Booking System" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">Laravel & Filament</span>
-              <h3 class="project-title">Hotel Booking System</h3>
-              <div class="project-links">
-                <a
-                  href="https://github.com/Aboodbr/Booking_System.git"
-                  target="_blank"
-                  style="margin-right: 10px"
-                  ><i class="fab fa-github"></i> GitHub</a
-                >
-                <a
-                  href="https://drive.google.com/file/d/1syiDKYpOX0N5Eb_jfj_lKfCRbI8oKecr/view?usp=sharing"
-                  target="_blank"
-                  ><i class="fas fa-external-link-alt"></i> Demo</a
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- 3. E-commerce -->
-          <div class="project-card hidden">
-            <div class="project-img">
-              <img src="p3.PNG" alt="E-commerce" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">E-commerce</span>
-              <h3 class="project-title">Website Sell Shoes</h3>
-              <div class="project-links">
-                <a
-                  href="https://github.com/Aboodbr/E_COMMERCE-FOOTWEAR-.git"
-                  target="_blank"
-                  style="margin-right: 10px"
-                  ><i class="fab fa-github"></i> GitHub</a
-                >
-                <a
-                  href="https://drive.google.com/file/d/1d6S2Z5f75YxLHlR9TEMCKZq8rz7fQOW9/view"
-                  target="_blank"
-                  ><i class="fas fa-external-link-alt"></i> Demo</a
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- 4. Engineering Office Management System -->
-          <div class="project-card hidden">
-            <div class="project-img">
-              <img
-                src="p5.PNG"
-                alt="Engineering Office Management System"
-                loading="lazy"
-              />
-            </div>
-            <div class="project-content">
-              <span class="project-category">Freelance Project</span>
-              <h3 class="project-title">Engineering Office M. System</h3>
-              <div class="project-links">
-                <a
-                  href="https://github.com/Aboodbr/eng-system.git"
-                  target="_blank"
-                  style="margin-right: 10px"
-                  ><i class="fab fa-github"></i> GitHub</a
-                >
-                <a
-                  href="https://drive.google.com/file/d/1PhjiQpirh-UtuvNq9VXCzctqHfz5eyc6/view"
-                  target="_blank"
-                  ><i class="fas fa-external-link-alt"></i> Demo</a
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- 5. API Auth and CRUD -->
-          <div class="project-card hidden">
-            <div class="project-img">
-              <img
-                src="p4.PNG"
-                alt="API Auth and CRUD Project"
-                loading="lazy"
-              />
-            </div>
-            <div class="project-content">
-              <span class="project-category">API Development</span>
-              <h3 class="project-title">API Auth and CRUD</h3>
-              <div class="project-links">
-                <a
-                  href="https://github.com/Aboodbr/-API-for-Authentication-and-CRUD-Operations.git"
-                  target="_blank"
-                  style="margin-right: 10px"
-                  ><i class="fab fa-github"></i> GitHub</a
-                >
-                <a
-                  href="https://drive.google.com/file/d/12NARgMwnMqmBgKGautCb6kquVMltJpvp/view?usp=sharing"
-                  target="_blank"
-                  ><i class="fas fa-external-link-alt"></i> Demo</a
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- 6. Blog Post Management -->
-          <div class="project-card hidden">
-            <div class="project-img">
-              <img src="p1.PNG" alt="Crud App" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">Crud App</span>
-              <h3 class="project-title">Blog Post Management</h3>
-              <div class="project-links">
-                <a
-                  href="https://github.com/Aboodbr/blogpost.git"
-                  target="_blank"
-                  style="margin-right: 10px"
-                  ><i class="fab fa-github"></i> GitHub</a
-                >
-                <a
-                  href="https://drive.google.com/file/d/1k6W8gO8ShNd7FsAm2h7wMfwOiqN5e9wR/view"
-                  target="_blank"
-                  ><i class="fas fa-external-link-alt"></i> Demo</a
-                >
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
