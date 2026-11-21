@@ -283,6 +283,19 @@ nav ul li:hover a{
 .cs:after{
     width: 85%;
 }
+
+.csharp:after{
+    width: 85%;
+}
+
+.dotnet:after{
+    width: 80%;
+}
+
+.mssql:after{
+    width: 85%;
+}
+
 .container {
     font-family: fantasy;
     text-align: center;
